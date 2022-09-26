@@ -48,6 +48,7 @@ kotlin {
     mingwX86()
     linuxX64()
     linuxArm32Hfp()
+    linuxArm64()
     linuxMips32()
 
     androidNativeArm32()
@@ -180,7 +181,9 @@ kotlin {
         linuxMips32Main {
             dependsOn pthreadMain
         }
-
+        linuxArm64Main {
+            dependsOn pthreadMain
+        }
         androidNativeArm32Main {
             dependsOn pthreadAndroidMain
         }

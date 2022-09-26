@@ -53,6 +53,7 @@ kotlin {
     linuxX64()
     linuxArm32Hfp()
     linuxMips32()
+    linuxArm64()
 
     androidNativeArm32()
     androidNativeArm64()
