@@ -37,11 +37,11 @@ def getGpgKey() {
 }
 
 signing {
-  required { isReleaseBuild() && gradle.taskGraph.hasTask("uploadArchives") }
-  def gpgKey = getGpgKey()
-  if(gpgKey != "") {
-    useInMemoryPgpKeys(gpgKey, "")
-  }
+//  required { isReleaseBuild() && gradle.taskGraph.hasTask("uploadArchives") }
+//  def gpgKey = getGpgKey()
+//  if(gpgKey != "") {
+//    useInMemoryPgpKeys(gpgKey, "")
+//  }
   sign(publishing.publications)
 }
 
