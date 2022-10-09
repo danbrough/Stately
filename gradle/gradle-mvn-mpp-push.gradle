@@ -9,20 +9,19 @@ def isReleaseBuild() {
 
 def getReleaseRepositoryUrl() {
   return hasProperty('RELEASE_REPOSITORY_URL') ? RELEASE_REPOSITORY_URL :
-      "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+      "https://s01.oss.sonatype.org/service/local/staging/deployByRepositoryId/${System.getenv("SONATYPE_REPO_ID")}"
 }
 
 def getSnapshotRepositoryUrl() {
-  return hasProperty('SNAPSHOT_REPOSITORY_URL') ? SNAPSHOT_REPOSITORY_URL :
-      "https://oss.sonatype.org/content/repositories/snapshots/"
+  return "https://s01.oss.sonatype.org/content/repositories/snapshots/"
 }
 
 def getRepositoryUsername() {
-  return hasProperty('SONATYPE_NEXUS_USERNAME') ? SONATYPE_NEXUS_USERNAME : ""
+  return System.getenv("SONATYPE_USER")
 }
 
 def getRepositoryPassword() {
-  return hasProperty('SONATYPE_NEXUS_PASSWORD') ? SONATYPE_NEXUS_PASSWORD : ""
+  return System.getenv("SONATYPE_PASSWORD")
 }
 
 task emptySourcesJar(type: Jar) {
@@ -37,11 +36,7 @@ def getGpgKey() {
 }
 
 signing {
-  required { isReleaseBuild() && gradle.taskGraph.hasTask("uploadArchives") }
-  def gpgKey = getGpgKey()
-  if(gpgKey != "") {
-    useInMemoryPgpKeys(gpgKey, "")
-  }
+  required { hasProperty("signPublications") }
   sign(publishing.publications)
 }
 
@@ -82,6 +77,11 @@ publishing {
 
   repositories {
     maven {
+      name = "M2"
+      url = "/usr/local/kotlinxtras/build/m2"
+    }
+    maven {
+      name = "SonaType"
       url isReleaseBuild() ? getReleaseRepositoryUrl() : getSnapshotRepositoryUrl()
       credentials {
         username getRepositoryUsername()
