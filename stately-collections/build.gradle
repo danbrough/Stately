@@ -42,6 +42,7 @@ kotlin {
     mingwX86()
     linuxX64()
     linuxArm32Hfp()
+	linuxArm64()
     linuxMips32()
 
     macosArm64()
@@ -160,6 +161,9 @@ kotlin {
             dependsOn nativeCommonMain
         }
         linuxArm32HfpMain {
+            dependsOn nativeCommonMain
+        }
+        linuxArm64Main {
             dependsOn nativeCommonMain
         }
         linuxMips32Main {
